@@ -2,7 +2,7 @@ Source: ros-groovy-dynamic-reconfigure
 Section: misc
 Priority: extra
 Maintainer: Ze'ev Klapow <zklapow@willowgarage.com>
-Build-Depends: debhelper (>= 7.0.50~), libboost1.46-all-dev,ros-groovy-roscpp,ros-groovy-catkin,ros-groovy-genmsg,ros-groovy-std-msgs,ros-groovy-langs-dev
+Build-Depends: debhelper (>= 7.0.50~), ros-groovy-roscpp,ros-groovy-catkin,ros-groovy-genmsg,libboost-all-dev,ros-groovy-std-msgs,ros-groovy-langs-dev
 Homepage: 
 Standards-Version: 3.9.2
 
