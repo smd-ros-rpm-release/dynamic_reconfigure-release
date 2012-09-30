@@ -1,6 +1,6 @@
 <package>
   <name>dynamic_reconfigure</name>
-  <version>1.5.10</version>
+  <version>1.5.11</version>
   <description brief="A system to allow node parameters to be changed without restarting the node.">
   This unary stack contains the dynamic_reconfigure package which provides a means to change
   node parameters at any time without having to restart the node.
@@ -23,5 +23,6 @@
   <build_depend>roscpp</build_depend>
   <build_depend>std_msgs</build_depend>
 
+  <run_depend>boost</run_depend>
   <run_depend>roscpp</run_depend>
 </package>
