@@ -1,13 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
 project(dynamic_reconfigure)
 
-find_package(catkin COMPONENTS genmsg
-                               roscpp 
-                               std_msgs
-)
+find_package(catkin COMPONENTS message_generation roscpp std_msgs)
 find_package(Boost REQUIRED)
 
-include_directories(include)
+include_directories(include ${catkin_INCLUDE_DIRS})
 include_directories(SYSTEM ${BOOST_INCLUDE_DIRS})
 
 catkin_python_setup()
@@ -22,16 +19,20 @@ add_service_files(
   DIRECTORY srv
   FILES Reconfigure.srv)
 
-generate_messages()
+generate_messages(DEPENDENCIES std_msgs)
 
 catkin_package(LIBRARIES dynamic_reconfigure_config_init_mutex
                INCLUDE_DIRS include
+               CATKIN_DEPENDS message_runtime std_msgs
                CFG_EXTRAS extras.cmake
 )
 
 add_library(dynamic_reconfigure_config_init_mutex SHARED
   src/dynamic_reconfigure_config_init_mutex.cpp)
 target_link_libraries(dynamic_reconfigure_config_init_mutex ${BOOST_LIBRARIES})
+
+# TODO test does not compile
+#add_subdirectory(test)
 
 install(DIRECTORY include/dynamic_reconfigure/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
@@ -46,8 +47,10 @@ install(DIRECTORY cmake
 )
 install(DIRECTORY msg
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/)
-install(DIRECTORY scripts
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/)
+install(PROGRAMS scripts/dynaparam
+        DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}/)
+install(PROGRAMS scripts/reconfigure_gui
+        DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}/)
 install(DIRECTORY srv
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/)
 install(DIRECTORY templates
