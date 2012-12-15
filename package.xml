@@ -1,6 +1,6 @@
 <package>
   <name>dynamic_reconfigure</name>
-  <version>1.5.25</version>
+  <version>1.5.26</version>
   <description>
     This unary stack contains the dynamic_reconfigure package which provides a means to change
     node parameters at any time without having to restart the node.
@@ -15,8 +15,9 @@
     <rosdoc config="rosdoc.yaml" />
   </export>
 
+  <buildtool_depend>catkin</buildtool_depend>
+
   <build_depend>boost</build_depend>
-  <build_depend>catkin</build_depend>
   <build_depend>message_generation</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>std_msgs</build_depend>
