@@ -28,23 +28,18 @@ macro(generate_dynamic_reconfigure_options)
     get_filename_component(_cfgonly ${_cfg} NAME_WE)
     set(_output_cpp ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_INCLUDE_DESTINATION}/${_cfgonly}Config.h)
     set(_output_py ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}/cfg/${_cfgonly}Config.py)
-    set(_output_dox ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/docs/${_cfg_bare}Config.dox)
-    set(_output_wikidoc ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/docs/${_cfg_bare}Config.wikidoc)
-    set(_output_usage ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/docs/${_cfg_bare}Config-usage.dox) 
+    set(_output_dox ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/docs/${_cfgonly}Config.dox)
+    set(_output_wikidoc ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/docs/${_cfgonly}Config.wikidoc)
+    set(_output_usage ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/docs/${_cfgonly}Config-usage.dox) 
 
     assert(CATKIN_ENV)
-    message("DEBUG OUTPUT")
-    execute_process(COMMAND cat ${CATKIN_ENV})
-    execute_process(COMMAND ${CATKIN_ENV} python -c "import os; print('PYTHONPATH', os.environ['PYTHONPATH'])")
     set(_cmd ${CATKIN_ENV}
       ${_input}
       ${dynamic_reconfigure_BASE_DIR}
-      ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}
+      ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}
       ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_INCLUDE_DESTINATION}
       ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}
     )
-    message("cmd = ${_cmd}")
-    message("DEBUG OUTPUT")
     debug_message(2 "dynamic reconfigure cmd: ${_cmd}")
     execute_process(COMMAND ${_cmd}
                     RESULT_VARIABLE RES_VAR
