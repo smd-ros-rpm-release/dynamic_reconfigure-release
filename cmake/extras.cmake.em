@@ -1,9 +1,9 @@
 @[if DEVELSPACE]@
 # base dir in develspace
-set(dynamic_reconfigure_BASE_DIR @(CMAKE_CURRENT_SOURCE_DIR))
+set(dynamic_reconfigure_BASE_DIR "@(CMAKE_CURRENT_SOURCE_DIR)")
 @[else]@
 # base dir in installspace
-set(dynamic_reconfigure_BASE_DIR @(CMAKE_INSTALL_PREFIX)/@(CATKIN_PACKAGE_SHARE_DESTINATION))
+set(dynamic_reconfigure_BASE_DIR "@(CMAKE_INSTALL_PREFIX)/@(CATKIN_PACKAGE_SHARE_DESTINATION)")
 @[end if]@
 
 macro(generate_dynamic_reconfigure_options)
@@ -70,8 +70,11 @@ macro(generate_dynamic_reconfigure_options)
             DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
   endforeach(_cfg)
 
-  # gencfg target for hard dependency od dynamic_reconfigure generation
+  # gencfg target for hard dependency on dynamic_reconfigure generation
   add_custom_target(${PROJECT_NAME}_gencfg DEPENDS ${${PROJECT_NAME}_generated})
+
+  # register target for catkin_package(EXPORTED_TARGETS)
+  list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS ${PROJECT_NAME}_gencfg)
 
   dynreconf_called()
 endmacro()
