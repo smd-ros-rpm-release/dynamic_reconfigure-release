@@ -21,8 +21,8 @@ macro(generate_dynamic_reconfigure_options)
     
     # The .cfg file is its own generator.
     set(gencfg_build_files 
-      ${dynamic_reconfigure_BASE_DIR}/templates/ConfigType.py
-      ${dynamic_reconfigure_BASE_DIR}/templates/ConfigType.h
+      ${dynamic_reconfigure_BASE_DIR}/templates/ConfigType.py.template
+      ${dynamic_reconfigure_BASE_DIR}/templates/ConfigType.h.template
     ) 
 
     get_filename_component(_cfgonly ${_cfg} NAME_WE)
@@ -41,17 +41,6 @@ macro(generate_dynamic_reconfigure_options)
       ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}
     )
     debug_message(2 "dynamic reconfigure cmd: ${_cmd}")
-    execute_process(COMMAND ${_cmd}
-                    RESULT_VARIABLE RES_VAR
-                    OUTPUT_VARIABLE OUT_VAR
-                    ERROR_VARIABLE ERR_VAR
-                    OUTPUT_STRIP_TRAILING_WHITESPACE
-                    ERROR_STRIP_TRAILING_WHITESPACE
-    )
-    if(${RES_VAR} OR NOT "${ERR_VAR}" STREQUAL "")
-      message(FATAL_ERROR "Could not run dynamic reconfigure file '${_cfg}': ${ERR_VAR}")
-    endif()
-    message(STATUS "dynamic_reconfigure built ${_cfg}: ${OUT_VAR}")
 
     #file(WRITE ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}/cfg/__init__.py)
 
@@ -71,7 +60,7 @@ macro(generate_dynamic_reconfigure_options)
   endforeach(_cfg)
 
   # gencfg target for hard dependency on dynamic_reconfigure generation
-  add_custom_target(${PROJECT_NAME}_gencfg DEPENDS ${${PROJECT_NAME}_generated})
+  add_custom_target(${PROJECT_NAME}_gencfg ALL DEPENDS ${${PROJECT_NAME}_generated})
 
   # register target for catkin_package(EXPORTED_TARGETS)
   list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS ${PROJECT_NAME}_gencfg)
@@ -85,8 +74,9 @@ macro(dynreconf_called)
 
     # mark that generate_dynamic_reconfigure_options() was called in order to detect wrong order of calling with catkin_python_setup()
     set(${PROJECT_NAME}_GENERATE_DYNAMIC_RECONFIGURE TRUE)
-    # check if catkin_python_setup() was called in order to skip installation of generated __init__.py file
-    set(package_has_static_sources ${${PROJECT_NAME}_CATKIN_PYTHON_SETUP})
+    # check if catkin_python_setup() installs an __init__.py file for a package with the current project name
+    # in order to skip the installation of a generated __init__.py file
+    set(package_has_static_sources ${${PROJECT_NAME}_CATKIN_PYTHON_SETUP_HAS_PACKAGE_INIT})
 
     # generate empty __init__ to make parent folder of msg/srv a python module
     if(NOT EXISTS ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}/__init__.py)
@@ -104,6 +94,8 @@ macro(dynreconf_called)
     include_directories(BEFORE ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_INCLUDE_DESTINATION})
     # pass the include directory to catkin_package()
     list(APPEND ${PROJECT_NAME}_INCLUDE_DIRS ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_INCLUDE_DESTINATION})
+    # ensure that the folder exists
+    file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_INCLUDE_DESTINATION})
 
     # generate cfg module __init__.py
     if(NOT EXISTS ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}/cfg/__init__.py)
