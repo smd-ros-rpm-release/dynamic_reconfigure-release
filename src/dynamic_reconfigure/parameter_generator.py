@@ -261,13 +261,11 @@ class ParameterGenerator:
     def add_group(self, name, type="", state=True):
         return self.group.add_group(name, type=type, state=state)
 
-    def mkdirabs(self, path, second_attempt = False):
+    def mkdirabs(self, path):
         if os.path.isdir(path):
             pass
         elif os.path.isfile(path):
             raise OSError("Error creating directory %s, a file with the same name exists" %path)
-        elif second_attempt: # An exception occurred, but we still don't know why.
-            raise
         else:
             head, tail = os.path.split(path)
             if head and not os.path.isdir(head):
@@ -276,8 +274,8 @@ class ParameterGenerator:
                 try:
                     os.mkdir(path)
                 except OSError:
-                    # Probably got created by somebody else, lets check.
-                    self.mkdirabs(path, True)
+                    if not os.path.isdir(path):
+                        raise
 
     def mkdir(self, path):
         path = os.path.join(self.pkgpath, path)
@@ -446,12 +444,12 @@ $i.desc=$description $range"""
         subgroups = string.join(subgroups, "\n") 
         setters = string.join(setters, "\n")
         params = string.join(params, "\n")
-        grouptemplate = open(os.path.join(self.dynconfpath, "templates", "GroupClass.h")).read()
+        grouptemplate = open(os.path.join(self.dynconfpath, "templates", "GroupClass.h.template")).read()
         list.append(Template(grouptemplate).safe_substitute(group.to_dict(), subgroups = subgroups, setters = setters, params = params, configname = self.name))
 
     def generatecpp(self):
         # Read the configuration manipulator template and insert line numbers and file name into template.
-        templatefile = os.path.join(self.dynconfpath, "templates", "ConfigType.h")
+        templatefile = os.path.join(self.dynconfpath, "templates", "ConfigType.h.template")
         templatelines = []
         templatefilesafe = templatefile.replace('\\', '\\\\') # line directive does backslash expansion.
         curline = 1
@@ -562,7 +560,7 @@ $i.desc=$description $range"""
     
     def generatepy(self):
         # Read the configuration manipulator template and insert line numbers and file name into template.
-        templatefile = os.path.join(self.dynconfpath, "templates", "ConfigType.py")
+        templatefile = os.path.join(self.dynconfpath, "templates", "ConfigType.py.template")
         templatelines = []
         f = open(templatefile)
         template = f.read()
