@@ -1,3 +1,22 @@
+## dynamic_reconfigure - 1.5.35-0
+
+User `dthomas@drudge` released the packages in the `dynamic_reconfigure` repository by running `/usr/bin/bloom-release -r indigo -t indigo dynamic_reconfigure` on `Wed, 12 Feb 2014 23:54:01 -0000`
+
+The `dynamic_reconfigure` package was released.
+
+Version of package(s) in repository `dynamic_reconfigure`:
+- rosdistro version: `null`
+- old version: `None-0`
+- new version: `1.5.35-0`
+
+Versions of tools used:
+- bloom version: `0.4.9`
+- catkin_pkg version: `0.1.26`
+- rosdep version: `0.10.25`
+- rosdistro version: `0.3.4`
+- vcstools version: `0.1.33`
+
+
 ## dynamic_reconfigure - 1.5.34-0
 
 User `dthomas@drudge` released the packages in the `dynamic_reconfigure` repository by running `/usr/bin/bloom-release -t groovy -r groovy dynamic_reconfigure` on `Thu, 19 Sep 2013 00:17:09 -0000`
