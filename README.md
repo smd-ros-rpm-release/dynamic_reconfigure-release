@@ -1,3 +1,22 @@
+## dynamic_reconfigure (hydro) - 1.5.36-0
+
+User `vagrant@precise64` released the packages in the `dynamic_reconfigure` repository into the `hydro` distro by running `/usr/bin/bloom-release dynamic_reconfigure --track hydro --rosdistro hydro` on `Tue, 01 Apr 2014 18:01:15 -0000`
+
+The `dynamic_reconfigure` package was released.
+
+Version of package(s) in repository `dynamic_reconfigure`:
+- rosdistro version: `1.5.34-0`
+- old version: `1.5.34-0`
+- new version: `1.5.36-0`
+
+Versions of tools used:
+- bloom version: `0.5.2`
+- catkin_pkg version: `0.1.27`
+- rosdep version: `0.10.25`
+- rosdistro version: `0.3.4`
+- vcstools version: `0.1.33`
+
+
 ## dynamic_reconfigure (indigo) - 1.5.35-1
 
 User `dthomas@drudge` released the packages in the `dynamic_reconfigure` repository into the `indigo` distro by running `/usr/bin/bloom-release -r indigo -t indigo dynamic_reconfigure` on `Thu, 06 Mar 2014 21:42:22 -0000`
