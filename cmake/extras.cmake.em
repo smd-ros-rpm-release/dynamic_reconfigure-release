@@ -17,7 +17,10 @@ macro(generate_dynamic_reconfigure_options)
   set(_autogen "")
   foreach(_cfg ${ARGN})
     # Construct the path to the .cfg file
-    set(_input ${PROJECT_SOURCE_DIR}/${_cfg})
+    set(_input ${_cfg})
+    if(NOT IS_ABSOLUTE ${_input})
+      set(_input ${PROJECT_SOURCE_DIR}/${_input})
+    endif()
     
     # The .cfg file is its own generator.
     set(gencfg_build_files 
@@ -40,7 +43,6 @@ macro(generate_dynamic_reconfigure_options)
       ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_INCLUDE_DESTINATION}
       ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}
     )
-    debug_message(2 "dynamic reconfigure cmd: ${_cmd}")
 
     #file(WRITE ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_PYTHON_DESTINATION}/cfg/__init__.py)
 
