@@ -1,0 +1,12 @@
+Source: ros-groovy-dynamic-reconfigure
+Section: misc
+Priority: extra
+Maintainer: Esteve Fernandez <esteve@osrfoundation.org>
+Build-Depends: debhelper (>= 7.0.0), libboost1.46-all-dev, ros-groovy-catkin (>= 0.5.87), ros-groovy-message-generation, ros-groovy-roscpp, ros-groovy-roscpp-serialization, ros-groovy-rostest, ros-groovy-std-msgs
+Homepage: http://ros.org/wiki/dynamic_reconfigure
+Standards-Version: 3.9.2
+
+Package: ros-groovy-dynamic-reconfigure
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libboost1.46-all-dev, ros-groovy-message-runtime, ros-groovy-roscpp, ros-groovy-roslib, ros-groovy-rospy, ros-groovy-rosservice, ros-groovy-std-msgs
+Description: This unary stack contains the dynamic_reconfigure package which provides a means to change node parameters at any time without having to restart the node.
